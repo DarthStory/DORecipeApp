@@ -1,23 +1,29 @@
 package com.example.recipeapp
 
+import android.content.Intent
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        Thread.sleep(3000)
-        installSplashScreen()
-        enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        val splashScreen = installSplashScreen()
+
+        // Capture the current time when the splash screen starts
+        val launchTime = System.currentTimeMillis()
+
+        // Add an optional delay for the splash screen exit
+        splashScreen.setKeepOnScreenCondition {
+            // Use a condition to keep the splash screen visible for a certain duration
+            System.currentTimeMillis() < launchTime + 3000
         }
+
+        super.onCreate(savedInstanceState)
+
+        // Navigate to LoginActivity after splash screen
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivity(intent)
+        finish()
     }
+
 }

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">RecipeApp</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="login">Login</string>
+    <string name="createAccount">Create Account</string>
+    <string name="register">Register</string>
+    <string name="appLogo">App Logo</string>
+    <string name="welcome">Welcome to D.O.Recipes!</string>
+    <string name="viewRecipes">View Recipes</string>
+
+
 </resources>

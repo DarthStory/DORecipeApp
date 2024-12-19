@@ -9,7 +9,13 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
     companion object {
         private const val DATABASE_NAME = "recipeApp.db"
-        private const val DATABASE_VERSION = 2
+        private const val DATABASE_VERSION = 3
+
+        // Users Table
+        private const val TABLE_USERS = "users"
+        private const val COLUMN_USER_ID = "id"
+        private const val COLUMN_USERNAME = "username"
+        private const val COLUMN_PASSWORD = "password"
 
         // Recipes Table
         private const val TABLE_RECIPE = "recipes"
@@ -26,6 +32,15 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
+        // Create Users Table
+        val createUsersTable = """
+            CREATE TABLE $TABLE_USERS (
+                $COLUMN_USER_ID INTEGER PRIMARY KEY AUTOINCREMENT,
+                $COLUMN_USERNAME TEXT UNIQUE,
+                $COLUMN_PASSWORD TEXT
+            )
+        """.trimIndent()
+
         // Create Recipes Table
         val createRecipesTable = """
             CREATE TABLE $TABLE_RECIPE (
@@ -46,14 +61,40 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             )
         """.trimIndent()
 
+        // Execute SQL Statements
+        db?.execSQL(createUsersTable)
         db?.execSQL(createRecipesTable)
         db?.execSQL(createIngredientsTable)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
+        db?.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_INGREDIENTS")
         db?.execSQL("DROP TABLE IF EXISTS $TABLE_RECIPE")
         onCreate(db)
+    }
+
+    fun addUser(user: User): Long {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put("username", user.username)
+            put("password", user.password)
+        }
+        val result = db.insert("users", null, contentValues)
+        db.close()
+        return result
+    }
+
+    fun validateUser(username: String, password: String): Boolean {
+        val db = this.readableDatabase
+        val query = "SELECT * FROM users WHERE username = ? AND password = ?"
+        val cursor = db.rawQuery(query, arrayOf(username, password))
+
+        val isValid = cursor.count > 0
+        cursor.close()
+        db.close()
+
+        return isValid
     }
 
     // Add Recipe
@@ -114,26 +155,7 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         return Pair(recipe, ingredients)
     }
 
-    fun addUser(user: User): Long {
-        val db = this.writableDatabase
-        val contentValues = ContentValues().apply {
-            put("username", user.username)
-            put("password", user.password)
-        }
-        val result = db.insert("users", null, contentValues)
-        db.close()
-        return result
-    }
 
-    fun validateUser(username: String, password: String): Boolean {
-        val db = this.readableDatabase
-        val query = "SELECT * FROM users WHERE username = ? AND password = ?"
-        val cursor = db.rawQuery(query, arrayOf(username, password))
-        val isValid = cursor.count > 0
-        cursor.close()
-        db.close()
-        return isValid
-    }
 
 
 }

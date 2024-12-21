@@ -49,16 +49,5 @@ class RecipeDetailActivity : AppCompatActivity() {
             Log.d("RecipeDetailActivity", "Invalid Recipe ID received")
             finish() // Close activity if no valid recipe ID is provided
         }
-
-        binding.btnDelete.setOnClickListener {
-            val recipeId = intent.getIntExtra("recipeId", -1)
-            if (recipeId != -1) {
-                dbHelper.deleteRecipe(recipeId)
-                Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
-                finish() // Return to the previous screen
-            } else {
-                Toast.makeText(this, "Error deleting recipe", Toast.LENGTH_SHORT).show()
-            }
-        }
     }
 }

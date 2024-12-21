@@ -24,7 +24,14 @@ class RecipeListActivity : AppCompatActivity() {
         // Initialize Database Helper
         dbHelper = DatabaseConnect(this)
 
-        // Fetch recipes from database
+        // Load and display recipes
+        loadRecipes()
+
+        // Initialize RecyclerView
+        binding.recyclerViewRecipes.layoutManager = LinearLayoutManager(this)
+    }
+
+    private fun loadRecipes() {
         val recipeList = dbHelper.getAllRecipes()
 
         if (recipeList.isEmpty()) {
@@ -32,17 +39,28 @@ class RecipeListActivity : AppCompatActivity() {
             return
         }
 
-        // Initialize RecyclerView
-        recipeAdapter = RecipeAdapter(recipeList) { recipe ->
+        recipeAdapter = RecipeAdapter(recipeList, { recipe ->
+            // Navigate to RecipeDetailActivity when a recipe is clicked
             Log.d("RecipeListActivity", "Clicked Recipe ID: ${recipe.id}, Name: ${recipe.name}")
             val intent = Intent(this, RecipeDetailActivity::class.java)
             intent.putExtra("recipeId", recipe.id) // Ensure ID is an Int
             startActivity(intent)
-        }
+        }, { recipeId ->
+            // Handle recipe deletion
+            deleteRecipe(recipeId)
+        })
 
-        binding.recyclerViewRecipes.apply {
-            layoutManager = LinearLayoutManager(this@RecipeListActivity)
-            adapter = recipeAdapter
-        }
+        binding.recyclerViewRecipes.adapter = recipeAdapter
+    }
+
+    private fun deleteRecipe(recipeId: Int) {
+        dbHelper.deleteRecipe(recipeId)
+        Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
+        refreshRecipeList()
+    }
+
+    private fun refreshRecipeList() {
+        val updatedRecipeList = dbHelper.getAllRecipes()
+        recipeAdapter.updateData(updatedRecipeList)
     }
 }

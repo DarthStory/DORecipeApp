@@ -38,8 +38,15 @@
             android:exported="true" />
 
         <!-- Recipe List Activity -->
-        <activity android:name=".RecipeListActivity"
+        <activity
+            android:name=".RecipeListActivity"
             android:exported="true"/>
+
+        <!-- Add Recipe Acivity -->
+        <activity
+            android:name=".AddActivity"
+            android:exported="true" />
+
     </application>
 
 </manifest>

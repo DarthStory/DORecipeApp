@@ -18,8 +18,12 @@ class HomeActivity : AppCompatActivity() {
 
         // Handle View Recipes Button Click
         binding.btnViewRecipes.setOnClickListener {
-            // Placeholder action for now
             startActivity(Intent(this, RecipeListActivity::class.java)) // Replace with actual implementation later
+        }
+
+        // Handle Add Recipe Button Click
+        binding.btnAddRecipe.setOnClickListener {
+            startActivity(Intent(this, AddActivity::class.java)) // Navigate to AddActivity
         }
     }
 }

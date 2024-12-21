@@ -4,6 +4,7 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 
 class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
 
@@ -32,7 +33,6 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
-        // Create Users Table
         val createUsersTable = """
             CREATE TABLE $TABLE_USERS (
                 $COLUMN_USER_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -41,7 +41,6 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             )
         """.trimIndent()
 
-        // Create Recipes Table
         val createRecipesTable = """
             CREATE TABLE $TABLE_RECIPE (
                 $COLUMN_RECIPE_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -50,7 +49,6 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             )
         """.trimIndent()
 
-        // Create Ingredients Table
         val createIngredientsTable = """
             CREATE TABLE $TABLE_INGREDIENTS (
                 $COLUMN_INGREDIENT_ID INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -61,7 +59,6 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
             )
         """.trimIndent()
 
-        // Execute SQL Statements
         db?.execSQL(createUsersTable)
         db?.execSQL(createRecipesTable)
         db?.execSQL(createIngredientsTable)
@@ -77,28 +74,25 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
     fun addUser(user: User): Long {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
-            put("username", user.username)
-            put("password", user.password)
+            put(COLUMN_USERNAME, user.username)
+            put(COLUMN_PASSWORD, user.password)
         }
-        val result = db.insert("users", null, contentValues)
+        val result = db.insert(TABLE_USERS, null, contentValues)
         db.close()
         return result
     }
 
     fun validateUser(username: String, password: String): Boolean {
         val db = this.readableDatabase
-        val query = "SELECT * FROM users WHERE username = ? AND password = ?"
+        val query = "SELECT * FROM $TABLE_USERS WHERE $COLUMN_USERNAME = ? AND $COLUMN_PASSWORD = ?"
         val cursor = db.rawQuery(query, arrayOf(username, password))
-
         val isValid = cursor.count > 0
         cursor.close()
         db.close()
-
         return isValid
     }
 
-    // Add Recipe
-    fun addRecipe(recipe: Recipe): Long {
+    fun addRecipe(recipe: Recipe): Int {
         val db = this.writableDatabase
         val contentValues = ContentValues().apply {
             put(COLUMN_RECIPE_NAME, recipe.name)
@@ -106,11 +100,12 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         }
         val recipeId = db.insert(TABLE_RECIPE, null, contentValues)
         db.close()
-        return recipeId
+
+        // Return ID as Int (if insert fails, it will return -1, so handle accordingly)
+        return recipeId.toInt()
     }
 
-    // Add Ingredients for a Recipe
-    fun addIngredients(recipeId: Long, ingredients: List<Ingredient>) {
+    fun addIngredients(recipeId: Int, ingredients: List<Ingredient>) {
         val db = this.writableDatabase
         ingredients.forEach { ingredient ->
             val contentValues = ContentValues().apply {
@@ -123,39 +118,97 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         db.close()
     }
 
-    // Fetch Recipe with Ingredients
-    fun getRecipeWithIngredients(recipeId: Long): Pair<Recipe, List<Ingredient>> {
+    fun getRecipeWithIngredients(recipeId: Int): Pair<Recipe, List<Ingredient>>? {
         val db = this.readableDatabase
 
         // Fetch Recipe
-        val recipeCursor = db.query(TABLE_RECIPE, null, "$COLUMN_RECIPE_ID = ?", arrayOf(recipeId.toString()), null, null, null)
-        var recipe = Recipe("", "")
+        Log.d("DatabaseConnect", "Fetching recipe with ID: $recipeId")
+        val recipeCursor = db.query(
+            TABLE_RECIPE,
+            null,
+            "$COLUMN_RECIPE_ID = ?",
+            arrayOf(recipeId.toString()),
+            null, null, null
+        )
+        var recipe: Recipe? = null
         if (recipeCursor.moveToFirst()) {
             recipe = Recipe(
-                recipeCursor.getString(recipeCursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)),
-                recipeCursor.getString(recipeCursor.getColumnIndexOrThrow(COLUMN_INSTRUCTIONS))
+                id = recipeCursor.getInt(recipeCursor.getColumnIndexOrThrow(COLUMN_RECIPE_ID)),
+                name = recipeCursor.getString(recipeCursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)),
+                instructions = recipeCursor.getString(
+                    recipeCursor.getColumnIndexOrThrow(
+                        COLUMN_INSTRUCTIONS
+                    )
+                )
             )
+            Log.d("DatabaseConnect", "Fetched Recipe: $recipe")
         }
         recipeCursor.close()
 
-        // Fetch Ingredients
-        val ingredientsCursor = db.query(TABLE_INGREDIENTS, null, "$COLUMN_RECIPE_ID_FK = ?", arrayOf(recipeId.toString()), null, null, null)
-        val ingredients = mutableListOf<Ingredient>()
-        while (ingredientsCursor.moveToNext()) {
-            ingredients.add(
-                Ingredient(
-                    ingredientsCursor.getString(ingredientsCursor.getColumnIndexOrThrow(COLUMN_INGREDIENT_NAME)),
-                    ingredientsCursor.getString(ingredientsCursor.getColumnIndexOrThrow(COLUMN_AMOUNT))
-                )
-            )
+        if (recipe == null) {
+            Log.d("DatabaseConnect", "No recipe found with ID: $recipeId")
+            db.close()
+            return null
         }
-        ingredientsCursor.close()
-        db.close()
+
+        // Fetch Ingredients
+        Log.d("DatabaseConnect", "Fetching ingredients for recipe ID: $recipeId")
+        val ingredientsCursor = db.query(
+            TABLE_INGREDIENTS,
+            null,
+            "$COLUMN_RECIPE_ID_FK = ?",
+            arrayOf(recipeId.toString()),
+            null, null, null
+        )
+        val ingredients = mutableListOf<Ingredient>()
+
+        try {
+            while (ingredientsCursor.moveToNext()) {
+                val name = ingredientsCursor.getString(
+                    ingredientsCursor.getColumnIndexOrThrow(COLUMN_INGREDIENT_NAME)
+                ) ?: "Unknown"
+                val amount = ingredientsCursor.getString(
+                    ingredientsCursor.getColumnIndexOrThrow(COLUMN_AMOUNT)
+                ) ?: "Unknown"
+                val ingredient = Ingredient(name, amount)
+                ingredients.add(ingredient)
+                Log.d("DatabaseConnect", "Fetched Ingredient: $ingredient")
+            }
+        } catch (e: Exception) {
+            Log.e("DatabaseConnect", "Error fetching ingredients: ${e.message}")
+        } finally {
+            ingredientsCursor.close()
+            db.close()
+        }
 
         return Pair(recipe, ingredients)
     }
 
 
+        fun getAllRecipes(): List<Recipe> {
+        val db = this.readableDatabase
+        val recipeList = mutableListOf<Recipe>()
 
+        val cursor = db.query(
+            TABLE_RECIPE,
+            arrayOf(COLUMN_RECIPE_ID, COLUMN_RECIPE_NAME, COLUMN_INSTRUCTIONS),
+            null, null, null, null, null
+        )
 
+        if (cursor.moveToFirst()) {
+            do {
+                val recipe = Recipe(
+                    id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_ID)),
+                    name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)),
+                    instructions = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_INSTRUCTIONS))
+                )
+                recipeList.add(recipe)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return recipeList
+    }
 }

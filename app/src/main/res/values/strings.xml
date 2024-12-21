@@ -8,6 +8,9 @@
     <string name="appLogo">App Logo</string>
     <string name="welcome">Welcome to D.O.Recipes!</string>
     <string name="viewRecipes">View Recipes</string>
-
+    <string name="addRecipe">Add Recipe</string>
+    <string name="search">Search</string>
+    <string name="view">View All</string>
+    <string name="settings">Settings</string>
 
 </resources>

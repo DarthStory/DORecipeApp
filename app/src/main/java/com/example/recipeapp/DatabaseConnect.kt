@@ -211,4 +211,40 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
 
         return recipeList
     }
+
+    fun searchRecipes(query: String): List<Recipe> {
+        val db = this.readableDatabase
+        val recipes = mutableListOf<Recipe>()
+
+        val searchQuery = """
+        SELECT DISTINCT $TABLE_RECIPE.$COLUMN_RECIPE_ID, $TABLE_RECIPE.$COLUMN_RECIPE_NAME, $TABLE_RECIPE.$COLUMN_INSTRUCTIONS
+        FROM $TABLE_RECIPE
+        LEFT JOIN $TABLE_INGREDIENTS
+        ON $TABLE_RECIPE.$COLUMN_RECIPE_ID = $TABLE_INGREDIENTS.$COLUMN_RECIPE_ID_FK
+        WHERE $TABLE_RECIPE.$COLUMN_RECIPE_NAME LIKE ? OR $TABLE_INGREDIENTS.$COLUMN_INGREDIENT_NAME LIKE ?
+    """
+        val cursor = db.rawQuery(searchQuery, arrayOf("%$query%", "%$query%"))
+
+        while (cursor.moveToNext()) {
+            val recipe = Recipe(
+                id = cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_ID)),
+                name = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_RECIPE_NAME)),
+                instructions = cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_INSTRUCTIONS))
+            )
+            recipes.add(recipe)
+        }
+        cursor.close()
+        db.close()
+
+        return recipes
+    }
+
+    fun deleteRecipe(recipeId: Int) {
+        val db = this.writableDatabase
+        db.delete(TABLE_RECIPE, "$COLUMN_RECIPE_ID = ?", arrayOf(recipeId.toString()))
+        db.delete(TABLE_INGREDIENTS, "$COLUMN_RECIPE_ID_FK = ?", arrayOf(recipeId.toString())) // Cascade delete ingredients
+        db.close()
+    }
+
+
 }

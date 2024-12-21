@@ -47,6 +47,22 @@
             android:name=".AddActivity"
             android:exported="true" />
 
+        <!-- Recipe Detail Acivity -->
+        <activity
+            android:name=".RecipeDetailActivity"
+            android:exported="true" />
+
+        <!-- Search Activity -->
+        <activity
+            android:name=".SearchActivity"
+            android:exported="true" />
+
+        <!-- Settings Activity -->
+        <activity
+            android:name=".SettingsActivity"
+            android:exported="true" />
+
+
     </application>
 
 </manifest>

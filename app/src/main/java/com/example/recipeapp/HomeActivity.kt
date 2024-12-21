@@ -18,12 +18,22 @@ class HomeActivity : AppCompatActivity() {
 
         // Handle View Recipes Button Click
         binding.btnViewRecipes.setOnClickListener {
-            startActivity(Intent(this, RecipeListActivity::class.java)) // Replace with actual implementation later
+            startActivity(Intent(this, RecipeListActivity::class.java)) // Navigate to ViewActivity
         }
 
         // Handle Add Recipe Button Click
         binding.btnAddRecipe.setOnClickListener {
             startActivity(Intent(this, AddActivity::class.java)) // Navigate to AddActivity
+        }
+
+        // Handle Search Button Click
+        binding.btnSearch.setOnClickListener {
+            startActivity(Intent(this, SearchActivity::class.java)) // Navigate to SearchActivity
+        }
+
+        // Handle Settings Button Click
+        binding.btnSettings.setOnClickListener {
+            startActivity(Intent(this, SettingsActivity::class.java)) // Navigate to SettingsActivity
         }
     }
 }

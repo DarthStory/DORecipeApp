@@ -10,8 +10,8 @@
     <!-- App Logo -->
     <ImageView
         android:id="@+id/appLogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="66dp"
@@ -34,58 +34,46 @@
     <!-- Search Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSearch"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/CircularButtonStyle"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_margin="8dp"
-        android:backgroundTint="@color/yellow"
         app:icon="@drawable/search"
-        app:iconSize="24dp"
-        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
         android:contentDescription="@string/search" />
 
     <!-- Add Recipe Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnAddRecipe"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/CircularButtonStyle"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:layout_marginBottom="32dp"
-        android:backgroundTint="@color/red"
+        android:contentDescription="@string/addRecipe"
+        android:textAlignment="center"
         app:icon="@drawable/add_recipe"
-        app:iconSize="24dp"
-        app:iconTint="@android:color/white"
-        android:contentDescription="@string/addRecipe" />
+        app:iconGravity="textStart" />
 
     <!-- View Recipes Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnViewRecipes"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/CircularButtonStyle"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="16dp"
-        android:backgroundTint="@color/red"
         app:icon="@drawable/view"
-        app:iconSize="24dp"
-        app:iconTint="@android:color/white"
+        app:iconGravity="textStart"
         android:contentDescription="@string/view" />
 
     <!-- Settings Button -->
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSettings"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        style="@style/CircularButtonStyle"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="16dp"
-        android:layout_marginBottom="32dp"
-        android:background="@drawable/circle"
         app:icon="@drawable/settings"
-        app:iconSize="24dp"
-        app:iconTint="@android:color/white"
-        android:contentDescription="@string/settings"/>
+        app:iconGravity="textStart"
+        android:contentDescription="@string/settings" />
+
 </RelativeLayout>

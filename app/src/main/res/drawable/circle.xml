@@ -1,4 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="@color/red" /> <!-- Use your desired color -->
-    <corners android:radius="40dp" /> <!-- Half of button size for perfect circle -->
+    <solid android:color="@color/red" /> <!-- Button background color -->
+    <corners android:radius="50dp" /> <!-- Radius matches half the button size -->
 </shape>

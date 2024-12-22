@@ -7,19 +7,21 @@
 
     <!-- Ingredient Name Input -->
     <EditText
-        android:id="@+id/etIngredientName"
+        android:id="@+id/IngredientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingredient Name"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textColor="@color/hint" />
 
     <!-- Ingredient Amount Input -->
     <EditText
-        android:id="@+id/etIngredientAmount"
+        android:id="@+id/IngredientAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Ingredient Amount"
-        android:inputType="text" />
+        android:inputType="text"
+        android:textColor="@color/hint" />
 
     <!-- Add Ingredient Button -->
     <Button
@@ -31,17 +33,17 @@
 
     <!-- Ingredient List Preview -->
     <TextView
-        android:id="@+id/tvIngredientList"
+        android:id="@+id/IngredientList"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginTop="16dp"
-        android:scrollbars="vertical"
+        android:layout_weight="1"
+        android:background="@color/yellow"
         android:gravity="top"
-        android:text="No ingredients added yet"
         android:padding="8dp"
-        android:background="@android:color/darker_gray"
-        android:textColor="@android:color/white"
+        android:scrollbars="vertical"
+        android:text="No ingredients added yet"
+        android:textColor="@color/hint"
         android:textSize="14sp" />
 
     <!-- Next Button -->

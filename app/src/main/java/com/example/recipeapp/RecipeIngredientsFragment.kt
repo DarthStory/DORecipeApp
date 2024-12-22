@@ -26,19 +26,26 @@ class RecipeIngredientsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnAddIngredient.setOnClickListener {
-            val ingredientName = binding.etIngredientName.text.toString().trim()
-            val ingredientAmount = binding.etIngredientAmount.text.toString().trim()
+            val ingredientName = binding.IngredientName.text.toString().trim()
+            val ingredientAmount = binding.IngredientAmount.text.toString().trim()
 
             if (ingredientName.isNotBlank() && ingredientAmount.isNotBlank()) {
                 ingredientsList.add(Pair(ingredientName, ingredientAmount))
-                binding.etIngredientName.text.clear()
-                binding.etIngredientAmount.text.clear()
+
+                // Clear the input fields
+                binding.IngredientName.text.clear()
+                binding.IngredientAmount.text.clear()
+
+                // Update the IngredientList TextView
+                binding.IngredientList.text = ingredientsList.joinToString("\n") {
+                    "${it.first}: ${it.second}"
+                }
             } else {
                 if (ingredientName.isBlank()) {
-                    binding.etIngredientName.error = "Enter ingredient name"
+                    binding.IngredientName.error = "Enter ingredient name"
                 }
                 if (ingredientAmount.isBlank()) {
-                    binding.etIngredientAmount.error = "Enter ingredient amount"
+                    binding.IngredientAmount.error = "Enter ingredient amount"
                 }
             }
         }
@@ -59,6 +66,7 @@ class RecipeIngredientsFragment : Fragment() {
                 .commit()
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

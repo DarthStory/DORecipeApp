@@ -28,8 +28,8 @@
         android:hint="@string/username"
         android:inputType="textPersonName"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#49464680"
+        android:textColor="@color/hint"
+        android:textColorHint="@color/hint"
         android:textSize="16sp" />
 
     <!-- Password Field -->
@@ -43,8 +43,8 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textColorHint="#80494646"
+        android:textColor="@color/hint"
+        android:textColorHint="@color/hint"
         android:textSize="16sp" />
 
     <!-- Register Button -->

@@ -4,4 +4,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#D8B259</color>
     <color name="red">#CE503E</color>
+    <color name="hint">#3E3D3D</color>
+
+    <color name="colorBackground">@color/black</color>
 </resources>

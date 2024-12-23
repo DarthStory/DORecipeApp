@@ -1,6 +1,5 @@
 package com.example.recipeapp
 
-import IngredientAdapter
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -13,7 +12,7 @@ import com.example.recipeapp.databinding.ActivityEditRecipeBinding
 class EditRecipeActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityEditRecipeBinding
-    private lateinit var dbHelper: DatabaseConnect
+    private lateinit var dbConnect: DatabaseConnect
     private var ingredientAdapter: IngredientAdapter? = null
 
     private var recipeId: Int = -1
@@ -21,13 +20,11 @@ class EditRecipeActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivityEditRecipeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize Database Helper
-        dbHelper = DatabaseConnect(this)
+        dbConnect = DatabaseConnect(this)
 
         // Get Recipe ID from Intent
         recipeId = intent.getIntExtra("recipeId", -1)
@@ -69,7 +66,7 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun loadRecipeData() {
-        val recipeWithIngredients = dbHelper.getRecipeWithIngredients(recipeId)
+        val recipeWithIngredients = dbConnect.getRecipeWithIngredients(recipeId)
 
         if (recipeWithIngredients != null) {
             val (recipe, ingredients) = recipeWithIngredients
@@ -77,8 +74,8 @@ class EditRecipeActivity : AppCompatActivity() {
             Log.d("EditRecipeActivity", "Ingredients loaded: $ingredients")
 
             // Populate the fields
-            binding.etRecipeName.setText(recipe.name)
-            binding.etRecipeInstructions.setText(recipe.instructions)
+            binding.RecipeName.setText(recipe.name)
+            binding.RecipeInstructions.setText(recipe.instructions)
 
             // Load ingredients
             ingredientList.clear()
@@ -117,8 +114,8 @@ class EditRecipeActivity : AppCompatActivity() {
     }
 
     private fun saveRecipe() {
-        val name = binding.etRecipeName.text.toString().trim()
-        val instructions = binding.etRecipeInstructions.text.toString().trim()
+        val name = binding.RecipeName.text.toString().trim()
+        val instructions = binding.RecipeInstructions.text.toString().trim()
 
         if (name.isBlank() || instructions.isBlank()) {
             Toast.makeText(this, "Name and Instructions cannot be empty.", Toast.LENGTH_SHORT).show()
@@ -127,11 +124,11 @@ class EditRecipeActivity : AppCompatActivity() {
 
         // Update recipe
         val updatedRecipe = Recipe(id = recipeId, name = name, instructions = instructions)
-        dbHelper.updateRecipe(updatedRecipe)
+        dbConnect.updateRecipe(updatedRecipe)
         Log.d("EditRecipeActivity", "Recipe updated: $updatedRecipe")
 
         // Update ingredients
-        dbHelper.updateIngredients(recipeId, ingredientList)
+        dbConnect.updateIngredients(recipeId, ingredientList)
         Log.d("EditRecipeActivity", "Ingredients updated: $ingredientList")
 
         Toast.makeText(this, "Recipe updated successfully!", Toast.LENGTH_SHORT).show()

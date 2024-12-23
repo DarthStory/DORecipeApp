@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    android:background="@drawable/recipelogobackground"> <!-- Background image -->
+    android:background="@drawable/recipelogobackground">
 
     <!-- Title -->
     <TextView
-        android:id="@+id/tvTitle"
+        android:id="@+id/Title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -19,10 +20,10 @@
 
     <!-- Username Field -->
     <EditText
-        android:id="@+id/etUsername"
+        android:id="@+id/Username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/tvTitle"
+        android:layout_below="@id/Title"
         android:layout_marginTop="40dp"
         android:background="@android:color/transparent"
         android:hint="@string/username"
@@ -34,10 +35,10 @@
 
     <!-- Password Field -->
     <EditText
-        android:id="@+id/etPassword"
+        android:id="@+id/Password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etUsername"
+        android:layout_below="@id/Username"
         android:layout_marginTop="20dp"
         android:background="@android:color/transparent"
         android:hint="@string/password"
@@ -52,7 +53,7 @@
         android:id="@+id/btnRegister"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/etPassword"
+        android:layout_below="@id/Password"
         android:layout_marginTop="96dp"
         android:backgroundTint="@color/red"
         android:text="@string/register" />

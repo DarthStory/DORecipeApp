@@ -1,7 +1,8 @@
+package com.example.recipeapp
+
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.recipeapp.Ingredient
 import com.example.recipeapp.databinding.ItemIngredientBinding
 
 class IngredientAdapter(
@@ -12,8 +13,8 @@ class IngredientAdapter(
     inner class IngredientViewHolder(private val binding: ItemIngredientBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(ingredient: Ingredient, position: Int) {
-            binding.tvIngredientName.text = ingredient.name
-            binding.tvIngredientAmount.text = ingredient.amount
+            binding.ingredientName.text = ingredient.name
+            binding.ingredientAmount.text = ingredient.amount
             binding.btnDeleteIngredient.setOnClickListener { onDeleteClick(position) }
         }
     }

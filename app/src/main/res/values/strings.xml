@@ -12,5 +12,24 @@
     <string name="search">Search</string>
     <string name="view">View All</string>
     <string name="settings">Settings</string>
+    <string name="ingredientName">Ingredient Name</string>
+    <string name="ingredientamount">Ingredient Amount</string>
+    <string name="addIngredient">Add Ingredient</string>
+    <string name="noIngredients">No Ingredients added yet</string>
+    <string name="enterName">Enter Recipe Name</string>
+    <string name="next">Next</string>
+    <string name="enterInstructions">Enter Recipe Instructions</string>
+    <string name="submit">Submit</string>
+    <string name="recipeName">Recipe Name</string>
+    <string name="instructions">Instructions</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="searchBy">Search recipes by name or ingredient</string>
+    <string name="amount">Amount</string>
+    <string name="delete">Delete</string>
+    <string name="edit">Edit</string>
+    <string name="save">Save</string>
+    <string name="dark">Dark Mode?</string>
+    <string name="sign">Sign in each time?</string>
+    <string name="mfa">MFA?</string>
 
 </resources>

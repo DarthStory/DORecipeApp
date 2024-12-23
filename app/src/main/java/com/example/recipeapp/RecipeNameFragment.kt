@@ -24,7 +24,7 @@ class RecipeNameFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            val recipeName = binding.etRecipeName.text.toString().trim()
+            val recipeName = binding.RecipeName.text.toString().trim()
 
             if (recipeName.isNotBlank()) {
                 val bundle = Bundle().apply {
@@ -35,13 +35,12 @@ class RecipeNameFragment : Fragment() {
                 val fragment = RecipeIngredientsFragment().apply {
                     arguments = bundle
                 }
-
                 parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, fragment)
                     .addToBackStack(null)
                     .commit()
             } else {
-                binding.etRecipeName.error = "Please enter a recipe name"
+                binding.RecipeName.error = "Please enter a recipe name"
             }
         }
     }

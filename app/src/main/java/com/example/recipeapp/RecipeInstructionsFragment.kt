@@ -29,7 +29,7 @@ class RecipeInstructionsFragment : Fragment() {
         val ingredients = arguments?.getStringArrayList("ingredients") ?: arrayListOf()
 
         binding.btnSubmit.setOnClickListener {
-            val instructions = binding.etInstructions.text.toString().trim()
+            val instructions = binding.Instructions.text.toString().trim()
 
             if (instructions.isNotBlank()) {
                 // Save the recipe to the database
@@ -42,7 +42,7 @@ class RecipeInstructionsFragment : Fragment() {
                     Toast.makeText(requireContext(), "Failed to save recipe. Try again.", Toast.LENGTH_SHORT).show()
                 }
             } else {
-                binding.etInstructions.error = "Please enter recipe instructions"
+                binding.Instructions.error = "Please enter recipe instructions"
             }
         }
     }

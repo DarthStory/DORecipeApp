@@ -10,18 +10,16 @@ import com.example.recipeapp.databinding.ActivitySearchBinding
 class SearchActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySearchBinding
-    private lateinit var dbHelper: DatabaseConnect
+    private lateinit var dbConnect: DatabaseConnect
     private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize Database Helper
-        dbHelper = DatabaseConnect(this)
+        dbConnect = DatabaseConnect(this)
 
         // Set up RecyclerView
         binding.recyclerViewSearchResults.layoutManager = LinearLayoutManager(this)
@@ -37,7 +35,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     private fun performSearch(query: String) {
-        val searchResults = dbHelper.searchRecipes(query)
+        val searchResults = dbConnect.searchRecipes(query)
         if (searchResults.isNotEmpty()) {
             recipeAdapter = RecipeAdapter(searchResults,
                 onRecipeClick = { recipe ->
@@ -48,7 +46,7 @@ class SearchActivity : AppCompatActivity() {
                 },
                 onDeleteClick = { recipeId ->
                     // Delete recipe functionality
-                    dbHelper.deleteRecipe(recipeId)
+                    dbConnect.deleteRecipe(recipeId)
                     Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
                     performSearch(query) // Refresh search results
                 },

@@ -10,17 +10,15 @@ import java.security.MessageDigest
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var dbHelper: DatabaseConnect
+    private lateinit var dbConnect: DatabaseConnect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Database Helper
-        dbHelper = DatabaseConnect(this)
+        // Initialize Database
+        dbConnect = DatabaseConnect(this)
 
         // Login Button Click Listener
         binding.btnLogin.setOnClickListener {
@@ -32,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show()
             } else {
                 // Validate credentials in database
-                if (dbHelper.validateUser(username, hashPassword(password))) {
+                if (dbConnect.validateUser(username, hashPassword(password))) {
                     Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this, HomeActivity::class.java))
                     finish()
@@ -41,7 +39,6 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
         }
-
         // Create Account Button Click Listener
         binding.btnCreateAccount.setOnClickListener {
             startActivity(Intent(this, CreateUserActivity::class.java))

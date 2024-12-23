@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -9,7 +10,7 @@
         android:id="@+id/SearchQuery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Search recipes by name or ingredient"
+        android:hint="@string/searchBy"
         android:inputType="text"
         android:padding="8dp"
         android:textColor="@color/black"
@@ -21,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Search"
+        android:text="@string/search"
         android:layout_gravity="end" />
 
     <!-- RecyclerView for Search Results -->

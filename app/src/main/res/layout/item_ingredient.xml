@@ -8,20 +8,20 @@
 
     <!-- Ingredient Name -->
     <TextView
-        android:id="@+id/tvIngredientName"
+        android:id="@+id/ingredientName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Ingredient Name"
+        android:text="@string/ingredientName"
         android:textSize="16sp" />
 
     <!-- Ingredient Amount -->
     <TextView
-        android:id="@+id/tvIngredientAmount"
+        android:id="@+id/ingredientAmount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Amount"
+        android:text="@string/amount"
         android:textSize="16sp" />
 
     <!-- Delete Button -->
@@ -30,6 +30,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:text="Delete"
+        android:text="@string/delete"
         android:textSize="14sp" />
 </LinearLayout>

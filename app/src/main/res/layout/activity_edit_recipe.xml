@@ -7,31 +7,33 @@
 
     <!-- Recipe Name -->
     <EditText
-        android:id="@+id/etRecipeName"
+        android:id="@+id/RecipeName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Recipe Name"
+        android:hint="@string/recipeName"
         android:textColor="@color/hint"
+        android:textColorHint="@color/hint"
         android:textSize="18sp" />
 
     <!-- Recipe Instructions -->
     <EditText
-        android:id="@+id/etRecipeInstructions"
+        android:id="@+id/RecipeInstructions"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:gravity="top"
-        android:hint="Instructions"
+        android:hint="@string/instructions"
         android:inputType="textMultiLine"
         android:minLines="4"
-        android:textColor="@color/hint" />
+        android:textColor="@color/hint"
+        android:textColorHint="@color/hint" />
 
     <!-- Ingredients Section -->
     <TextView
-        android:id="@+id/tvIngredientsHeader"
+        android:id="@+id/IngredientsHeader"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ingredients"
+        android:text="@string/ingredients"
         android:textStyle="bold"
         android:layout_marginTop="16dp" />
 
@@ -47,7 +49,7 @@
         android:id="@+id/btnAddIngredient"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Add Ingredient"
+        android:text="@string/addIngredient"
         android:layout_marginTop="16dp"
         android:layout_gravity="center" />
 
@@ -56,7 +58,7 @@
         android:id="@+id/btnSaveRecipe"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Recipe"
+        android:text="@string/save"
         android:backgroundTint="@color/red"
         android:textColor="@android:color/white"
         android:layout_marginTop="16dp" />

@@ -9,22 +9,20 @@ import java.security.MessageDigest
 class CreateUserActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCreateUserBinding
-    private lateinit var dbHelper: DatabaseConnect
+    private lateinit var dbConnect: DatabaseConnect
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivityCreateUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize Database Helper
-        dbHelper = DatabaseConnect(this)
+        // Initialize Database
+        dbConnect = DatabaseConnect(this)
 
         // Register Button Click Listener
         binding.btnRegister.setOnClickListener {
-            val username = binding.etUsername.text.toString().trim()
-            val password = binding.etPassword.text.toString().trim()
+            val username = binding.Username.text.toString().trim()
+            val password = binding.Password.text.toString().trim()
 
             // Input Validation
             if (username.isBlank() || password.isBlank()) {
@@ -35,9 +33,7 @@ class CreateUserActivity : AppCompatActivity() {
             // Hash the password before storing
             val hashedPassword = hashPassword(password)
 
-            // Add user to the database
-            val result = dbHelper.addUser(User(username, hashedPassword))
-
+            val result = dbConnect.addUser(User(username, hashedPassword))
             if (result != -1L) {
                 Toast.makeText(this, "User registered successfully!", Toast.LENGTH_SHORT).show()
                 finish() // Return to LoginActivity

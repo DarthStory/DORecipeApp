@@ -9,7 +9,7 @@
 
         <!-- Primary Colors -->
         <item name="colorPrimary">@color/red</item>
-        <item name="colorOnPrimary">@color/black</item> <!-- Text/icons on primary color -->
+        <item name="colorOnPrimary">@color/white</item> <!-- Text/icons on primary color -->
 
         <!-- Surface and On-Surface Colors -->
         <item name="colorSurface">@color/yellow</item>

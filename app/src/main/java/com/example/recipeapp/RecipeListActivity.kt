@@ -11,18 +11,16 @@ import com.example.recipeapp.databinding.ActivityRecipeListBinding
 class RecipeListActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRecipeListBinding
-    private lateinit var dbHelper: DatabaseConnect
+    private lateinit var dbConnect: DatabaseConnect
     private lateinit var recipeAdapter: RecipeAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivityRecipeListBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         // Initialize Database Helper
-        dbHelper = DatabaseConnect(this)
+        dbConnect = DatabaseConnect(this)
 
         // Load and display recipes
         loadRecipes()
@@ -32,7 +30,7 @@ class RecipeListActivity : AppCompatActivity() {
     }
 
     private fun loadRecipes() {
-        val recipeList = dbHelper.getAllRecipes()
+        val recipeList = dbConnect.getAllRecipes()
 
         if (recipeList.isEmpty()) {
             Toast.makeText(this, "No recipes available.", Toast.LENGTH_SHORT).show()
@@ -61,7 +59,7 @@ class RecipeListActivity : AppCompatActivity() {
     }
 
     private fun deleteRecipe(recipeId: Int) {
-        dbHelper.deleteRecipe(recipeId)
+        dbConnect.deleteRecipe(recipeId)
         Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
         refreshRecipeList()
     }
@@ -74,7 +72,7 @@ class RecipeListActivity : AppCompatActivity() {
     }
 
     private fun refreshRecipeList() {
-        val updatedRecipeList = dbHelper.getAllRecipes()
+        val updatedRecipeList = dbConnect.getAllRecipes()
         recipeAdapter.updateData(updatedRecipeList)
     }
 

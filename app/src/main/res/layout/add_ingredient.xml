@@ -8,22 +8,24 @@
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Ingredient Name Input -->
+    <!-- Ingredient Name -->
     <EditText
         android:id="@+id/ingredientName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingredient Name"
+        android:hint="@string/ingredientName"
         android:inputType="text"
-        android:textColor="@color/hint" />
+        android:textColor="@color/hint"
+        android:textColorHint="@color/hint" />
 
-    <!-- Ingredient Amount Input -->
+    <!-- Ingredient Amount -->
     <EditText
         android:id="@+id/ingredientAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Ingredient Amount"
+        android:hint="@string/amount"
         android:inputType="text"
-        android:textColor="@color/hint" />
+        android:textColor="@color/hint"
+        android:textColorHint="@color/hint" />
 
 </LinearLayout>

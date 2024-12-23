@@ -10,12 +10,9 @@ class SettingsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // View Binding
         binding = ActivitySettingsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Placeholder for functionality
-        // Later you can handle toggles, save preferences, etc.
+        // Future Settings
     }
 }

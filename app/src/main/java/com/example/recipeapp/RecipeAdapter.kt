@@ -1,8 +1,6 @@
 package com.example.recipeapp
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.recipeapp.databinding.ItemRecipeBinding
@@ -10,14 +8,19 @@ import com.example.recipeapp.databinding.ItemRecipeBinding
 class RecipeAdapter(
     private var recipes: List<Recipe>,
     private val onRecipeClick: (Recipe) -> Unit,
-    private val onDeleteClick: (Int) -> Unit
+    private val onDeleteClick: (Int) -> Unit,
+    private val onEditClick: (Recipe) -> Unit // Callback for the edit button
 ) : RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>() {
 
     inner class RecipeViewHolder(private val binding: ItemRecipeBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(recipe: Recipe) {
+            // Set the recipe name
             binding.tvRecipeName.text = recipe.name
-            binding.root.setOnClickListener { onRecipeClick(recipe) }
-            binding.btnDeleteRecipe.setOnClickListener { onDeleteClick(recipe.id) }
+
+            // Handle click events
+            binding.root.setOnClickListener { onRecipeClick(recipe) } // View recipe details
+            binding.btnDeleteRecipe.setOnClickListener { onDeleteClick(recipe.id) } // Delete recipe
+            binding.btnEditRecipe.setOnClickListener { onEditClick(recipe) } // Edit recipe
         }
     }
 
@@ -37,4 +40,3 @@ class RecipeAdapter(
         notifyDataSetChanged()
     }
 }
-

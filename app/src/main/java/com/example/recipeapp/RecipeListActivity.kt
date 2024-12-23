@@ -39,16 +39,23 @@ class RecipeListActivity : AppCompatActivity() {
             return
         }
 
-        recipeAdapter = RecipeAdapter(recipeList, { recipe ->
-            // Navigate to RecipeDetailActivity when a recipe is clicked
-            Log.d("RecipeListActivity", "Clicked Recipe ID: ${recipe.id}, Name: ${recipe.name}")
-            val intent = Intent(this, RecipeDetailActivity::class.java)
-            intent.putExtra("recipeId", recipe.id) // Ensure ID is an Int
-            startActivity(intent)
-        }, { recipeId ->
-            // Handle recipe deletion
-            deleteRecipe(recipeId)
-        })
+        recipeAdapter = RecipeAdapter(recipeList,
+            onRecipeClick = { recipe ->
+                // Navigate to RecipeDetailActivity when a recipe is clicked
+                Log.d("RecipeListActivity", "Clicked Recipe ID: ${recipe.id}, Name: ${recipe.name}")
+                val intent = Intent(this, RecipeDetailActivity::class.java)
+                intent.putExtra("recipeId", recipe.id)
+                startActivity(intent)
+            },
+            onDeleteClick = { recipeId ->
+                // Handle recipe deletion
+                deleteRecipe(recipeId)
+            },
+            onEditClick = { recipe ->
+                // Handle recipe editing
+                editRecipe(recipe)
+            }
+        )
 
         binding.recyclerViewRecipes.adapter = recipeAdapter
     }
@@ -59,8 +66,21 @@ class RecipeListActivity : AppCompatActivity() {
         refreshRecipeList()
     }
 
+    private fun editRecipe(recipe: Recipe) {
+        Log.d("RecipeListActivity", "Editing Recipe ID: ${recipe.id}, Name: ${recipe.name}")
+        val intent = Intent(this, EditRecipeActivity::class.java)
+        intent.putExtra("recipeId", recipe.id)
+        startActivity(intent)
+    }
+
     private fun refreshRecipeList() {
         val updatedRecipeList = dbHelper.getAllRecipes()
         recipeAdapter.updateData(updatedRecipeList)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Refresh the recipe list when returning to this activity
+        refreshRecipeList()
     }
 }

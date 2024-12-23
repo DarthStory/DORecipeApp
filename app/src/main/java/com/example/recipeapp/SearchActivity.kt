@@ -39,17 +39,26 @@ class SearchActivity : AppCompatActivity() {
     private fun performSearch(query: String) {
         val searchResults = dbHelper.searchRecipes(query)
         if (searchResults.isNotEmpty()) {
-            recipeAdapter = RecipeAdapter(searchResults, { recipe ->
-                // Navigate to RecipeDetailActivity
-                val intent = Intent(this, RecipeDetailActivity::class.java)
-                intent.putExtra("recipeId", recipe.id)
-                startActivity(intent)
-            }, { recipeId ->
-                // Delete recipe functionality
-                dbHelper.deleteRecipe(recipeId)
-                Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
-                performSearch(query) // Refresh search results
-            })
+            recipeAdapter = RecipeAdapter(searchResults,
+                onRecipeClick = { recipe ->
+                    // Navigate to RecipeDetailActivity
+                    val intent = Intent(this, RecipeDetailActivity::class.java)
+                    intent.putExtra("recipeId", recipe.id)
+                    startActivity(intent)
+                },
+                onDeleteClick = { recipeId ->
+                    // Delete recipe functionality
+                    dbHelper.deleteRecipe(recipeId)
+                    Toast.makeText(this, "Recipe deleted successfully!", Toast.LENGTH_SHORT).show()
+                    performSearch(query) // Refresh search results
+                },
+                onEditClick = { recipe ->
+                    // Navigate to EditRecipeActivity
+                    val intent = Intent(this, EditRecipeActivity::class.java)
+                    intent.putExtra("recipeId", recipe.id)
+                    startActivity(intent)
+                }
+            )
             binding.recyclerViewSearchResults.adapter = recipeAdapter
         } else {
             Toast.makeText(this, "No recipes found for \"$query\"", Toast.LENGTH_SHORT).show()

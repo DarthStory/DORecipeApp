@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/yellow"
+    android:backgroundTint="@color/yellow"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Ingredient Name Input -->
+    <EditText
+        android:id="@+id/ingredientName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingredient Name"
+        android:inputType="text"
+        android:textColor="@color/hint" />
+
+    <!-- Ingredient Amount Input -->
+    <EditText
+        android:id="@+id/ingredientAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ingredient Amount"
+        android:inputType="text"
+        android:textColor="@color/hint" />
+
+</LinearLayout>

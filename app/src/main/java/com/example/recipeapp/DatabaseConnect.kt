@@ -246,5 +246,32 @@ class DatabaseConnect(context: Context) : SQLiteOpenHelper(context, DATABASE_NAM
         db.close()
     }
 
+    fun updateRecipe(recipe: Recipe) {
+        val db = this.writableDatabase
+        val contentValues = ContentValues().apply {
+            put(COLUMN_RECIPE_NAME, recipe.name)
+            put(COLUMN_INSTRUCTIONS, recipe.instructions)
+        }
+        db.update(TABLE_RECIPE, contentValues, "$COLUMN_RECIPE_ID = ?", arrayOf(recipe.id.toString()))
+        db.close()
+    }
+
+    fun updateIngredients(recipeId: Int, ingredients: List<Ingredient>) {
+        val db = writableDatabase
+
+        // Delete old ingredients
+        db.delete(TABLE_INGREDIENTS, "$COLUMN_RECIPE_ID_FK = ?", arrayOf(recipeId.toString()))
+
+        // Add updated ingredients
+        ingredients.forEach { ingredient ->
+            val values = ContentValues().apply {
+                put(COLUMN_RECIPE_ID_FK, recipeId)
+                put(COLUMN_INGREDIENT_NAME, ingredient.name)
+                put(COLUMN_AMOUNT, ingredient.amount)
+            }
+            db.insert(TABLE_INGREDIENTS, null, values)
+        }
+        db.close()
+    }
 
 }
